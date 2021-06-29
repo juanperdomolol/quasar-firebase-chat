@@ -1,13 +1,21 @@
 <template>
   <q-page padding>
-   <vistaAcceso/>
-   
+    <vistaAcceso v-if="!isAuthenticated" />
   </q-page>
 </template>
 
 <script>
-import vistaAcceso from "../components/vistaAcceso.vue"
+import vistaAcceso from "../components/vistaAcceso.vue";
+import firebase  from "firebase";
+import { useAuth } from "@vueuse/firebase";
+import {auth} from "../boot/firebase"
 export default {
-  components: {vistaAcceso}
-}
+  components: { vistaAcceso },
+  setup() {
+    const { isAuthenticated,user } = useAuth(firebase.auth);
+    return {
+      isAuthenticated, user
+    };
+  },
+};
 </script>

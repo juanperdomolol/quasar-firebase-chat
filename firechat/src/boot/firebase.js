@@ -20,7 +20,7 @@ const db = firebase.firestore()
 const auth = firebase.auth()
 const marcaTiempo = firebase.firestore.FieldValue.serverTimestamp;
 
-export { db,auth, marcaTiempo}
+export { db, auth, marcaTiempo}
 
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
