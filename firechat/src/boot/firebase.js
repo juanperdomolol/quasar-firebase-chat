@@ -1,5 +1,7 @@
 import { boot } from 'quasar/wrappers'
 
+// console.log("todo bieeen");
+import firebase from "firebase/app"
 import 'firebase/auth'
 import 'firebase/firestore'
 
@@ -19,6 +21,7 @@ const auth = firebase.auth()
 const marcaTiempo = firebase.firestore.FieldValue.serverTimestamp;
 
 export { db,auth, marcaTiempo}
+
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
 export default boot(async (/* { app, router, ... } */) => {
