@@ -36,7 +36,7 @@
 </template>
 <script>
 import { ref } from "vue";
-import { auth } from "boot/firebase";
+import { auth, db } from "boot/firebase";
 import firebase from 'firebase'
 import { useQuasar } from "quasar";
 import { useAuth } from "@vueuse/firebase/useAuth";
@@ -64,18 +64,21 @@ export default {
             email.value,
             password.value
           );
+          await db.collection("usuarios").doc(usuario.user.uid).set({
+            email: usuario.user.email,
+            estado: true,
+            uid: usuario.user.uid
+          })
           console.log(usuario.user);
-          // .then((userCredential)=>{
-          //   var user = userCredential.user
-          // })
         } else {
           //login
-          // juan@juan.com
-          // 1231231
           const usuario = await auth.signInWithEmailAndPassword(
             email.value,
             password.value
           );
+           await db.collection("usuarios").doc(usuario.user.uid).update({
+            estado: true,
+          })
           console.log(usuario.user);
         }
         email.value = "";
@@ -83,7 +86,7 @@ export default {
       } catch (error) {
         console.log(error);
         $q.notify({
-          message: "Correo ya esta registrado.",
+          message: "Este correo ya esta registrado.",
           icon: "report_problem",
           color: "red",
           progress: true,

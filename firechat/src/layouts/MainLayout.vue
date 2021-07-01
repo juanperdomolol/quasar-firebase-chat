@@ -2,7 +2,9 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title>{{isAuthenticated ? user.email : 'Chat'}}</q-toolbar-title>
+        <q-toolbar-title>{{
+          isAuthenticated ? user.email : "Chat"
+        }}</q-toolbar-title>
 
         <div>
           <q-btn
@@ -28,7 +30,7 @@
 <script>
 import firebase from "firebase";
 import { useAuth } from "@vueuse/firebase";
-import {auth} from 'boot/firebase'
+import { auth, db } from "boot/firebase";
 import { ref } from "vue";
 
 export default {
@@ -39,13 +41,16 @@ export default {
   setup() {
     const { isAuthenticated, user } = useAuth(firebase.auth);
 
-    const salir = async () =>{
+    const salir = async () => {
       try {
-        await auth.signOut()
-      } catch (error){
-        console.log(error)
+        await db.collection("usuarios").doc(user.value.uid).update({
+          estado: false,
+        });
+        await auth.signOut();
+      } catch (error) {
+        console.log(error);
       }
-    }
+    };
     return { isAuthenticated, user, salir };
   },
 };
